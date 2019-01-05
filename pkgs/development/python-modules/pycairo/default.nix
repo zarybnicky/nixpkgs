@@ -16,20 +16,21 @@ buildPythonPackage rec {
   # We need to create the pkgconfig file but it cannot be installed as a wheel since wheels
   # are supposed to be relocatable and do not support --prefix option
   buildPhase = ''
+    echo "Building..."
     ${python.interpreter} setup.py build
   '';
 
   installPhase = ''
+    echo "Installing..."
     ${python.interpreter} setup.py install --skip-build --prefix="$out" --optimize=1
   '';
 
   checkPhase = ''
+    echo "Installing..."
     ${python.interpreter} setup.py test
   '';
 
   nativeBuildInputs = [ pkgconfig ];
-  buildInputs = [ python cairo xlibsWrapper ];
+  buildInputs = [ cairo xlibsWrapper ];
   checkInputs = [ pytest ];
-
-  meta.platforms = lib.platforms.linux ++ lib.platforms.darwin;
 }

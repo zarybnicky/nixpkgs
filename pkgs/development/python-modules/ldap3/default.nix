@@ -1,4 +1,4 @@
-{ stdenv, fetchPypi, buildPythonPackage, gssapi, pyasn1 }:
+{ stdenv, fetchPypi, buildPythonPackage, pyasn1 }:
 
 buildPythonPackage rec {
   version = "2.5.2";
@@ -8,8 +8,6 @@ buildPythonPackage rec {
     inherit pname version;
     sha256 = "063dacy01mphc3n7z2qc2avykjavqm1gllkbvy7xzw5ihlqwhrrz";
   };
-
-  buildInputs = [ gssapi ];
 
   propagatedBuildInputs = [ pyasn1 ];
 
