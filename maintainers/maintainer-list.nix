@@ -1953,6 +1953,11 @@
     github = "jakelogemann";
     name = "Jake Logemann";
   };
+  jakewaksbaum = {
+    email = "jake.waksbaum@gmail.com";
+    github = "jbaum98";
+    name = "Jake Waksbaum";
+  };
   jammerful = {
     email = "jammerful@gmail.com";
     github = "jammerful";
@@ -4355,6 +4360,11 @@
     email = "mail@tazj.in";
     github = "tazjin";
     name = "Vincent Ambo";
+  };
+  tbenst = {
+    email = "nix@tylerbenster.com";
+    github = "tbenst";
+    name = "Tyler Benster";
   };
   teh = {
     email = "tehunger@gmail.com";

@@ -4580,6 +4580,8 @@ in
 
   ola = callPackage ../applications/misc/ola { };
 
+  omping = callPackage ../applications/networking/omping { };
+
   onioncircuits = callPackage ../tools/security/onioncircuits {
     inherit (gnome3) defaultIconTheme;
   };
@@ -5911,6 +5913,8 @@ in
 
   ua = callPackage ../tools/networking/ua { };
 
+  ubridge = callPackage ../tools/networking/ubridge { };
+
   ucl = callPackage ../development/libraries/ucl { };
 
   ucspi-tcp = callPackage ../tools/networking/ucspi-tcp { };
@@ -7016,7 +7020,8 @@ in
   };
   gcc-arm-embedded-6 = callPackage ../development/compilers/gcc-arm-embedded/6 {};
   gcc-arm-embedded-7 = callPackage ../development/compilers/gcc-arm-embedded/7 {};
-  gcc-arm-embedded = gcc-arm-embedded-7;
+  gcc-arm-embedded-8 = callPackage ../development/compilers/gcc-arm-embedded/8 {};
+  gcc-arm-embedded = gcc-arm-embedded-8;
 
   gforth = callPackage ../development/compilers/gforth {};
 
@@ -7581,6 +7586,8 @@ in
   };
 
   tinycc = callPackage ../development/compilers/tinycc { };
+
+  tinyscheme = callPackage ../development/interpreters/tinyscheme { };
 
   inherit (ocaml-ng.ocamlPackages_4_02) trv;
 
@@ -11796,6 +11803,8 @@ in
   ntk = callPackage ../development/libraries/audio/ntk { };
 
   ntrack = callPackage ../development/libraries/ntrack { };
+
+  nv-codec-headers = callPackage ../development/libraries/nv-codec-headers { };
 
   nvidia-texture-tools = callPackage ../development/libraries/nvidia-texture-tools { };
 
@@ -20800,7 +20809,9 @@ in
 
   openmw-tes3mp = libsForQt5.callPackage ../games/openmw/tes3mp.nix { };
 
-  openra = callPackage ../games/openra { lua = lua5_1; };
+  openraPackages = import ../games/openra pkgs;
+
+  openra = openraPackages.engines.release;
 
   openrw = callPackage ../games/openrw { };
 
@@ -21406,6 +21417,8 @@ in
   bedtools = callPackage ../applications/science/biology/bedtools { };
 
   bcftools = callPackage ../applications/science/biology/bcftools { };
+
+  bftools = callPackage ../applications/science/biology/bftools { };
 
   conglomerate = callPackage ../applications/science/biology/conglomerate { };
 
