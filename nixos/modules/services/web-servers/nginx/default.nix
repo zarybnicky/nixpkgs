@@ -594,20 +594,38 @@ in
       description = "Nginx Web Server";
       after = [ "network.target" ];
       wantedBy = [ "multi-user.target" ];
-      stopIfChanged = false;
       preStart =
         ''
         mkdir -p ${cfg.stateDir}/logs
         chmod 700 ${cfg.stateDir}
         chown -R ${cfg.user}:${cfg.group} ${cfg.stateDir}
         ${cfg.package}/bin/nginx -c ${configFile} -p ${cfg.stateDir} -t
+        ln -sf ${configFile} /run/nginx/config
+        ln -sf ${cfg.package} /run/nginx/package
         '';
+      reload = ''
+        # Check if the new config is valid
+        ${cfg.package}/bin/nginx -c ${configFile} -p ${cfg.stateDir} -t
+
+        # Check if the package changed
+        if [[ $(readlink /run/nginx/package) != ${cfg.package} ]]; then
+          # If it changed, we need to restart nginx. So we kill nginx
+          # gracefully. We can't send a restart to systemd while in the
+          # reload script. Nginx will be restarted by systemd automatically.
+          echo "Nginx package changed, gracefully quitting so systemd can restart it"
+          ${pkgs.coreutils}/bin/kill -QUIT $MAINPID
+        else
+          # We only need to change the configuration, so update it and reload nginx
+          echo "Restart not needed, only reloading"
+          ln -sf ${configFile} /run/nginx/config
+          ${pkgs.coreutils}/bin/kill -HUP $MAINPID
+        fi
+      '';
+      reloadIfChanged = true;
       serviceConfig = {
-        ExecStart = "${cfg.package}/bin/nginx -c ${configFile} -p ${cfg.stateDir}";
-        ExecReload = "${pkgs.coreutils}/bin/kill -HUP $MAINPID";
+        ExecStart = "${cfg.package}/bin/nginx -c /run/nginx/config -p ${cfg.stateDir}";
         Restart = "always";
-        RestartSec = "10s";
-        StartLimitInterval = "1min";
+        RuntimeDirectory = "nginx";
       };
     };
 
